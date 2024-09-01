@@ -1,6 +1,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { FieldValues, useForm } from "react-hook-form";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +21,8 @@ type Props = {
 
 export const SignIn = (props: Props) => {
   const { onChangeAuthFlow } = props;
+  const { signIn } = useAuthActions();
+
   const {
     register,
     handleSubmit,
@@ -29,6 +32,10 @@ export const SignIn = (props: Props) => {
 
   const handleSignUp = (data: FieldValues) => {
     console.log(data);
+  };
+
+  const handleSignIn = (value: 'github' | 'google') => {
+    signIn(value);
   };
 
   return (
@@ -76,7 +83,7 @@ export const SignIn = (props: Props) => {
         <Separator />
         <div className="flex flex-col gap-y-2.5">
           <Button
-            onClick={() => {}}
+            onClick={() => handleSignIn('google')}
             variant="outline"
             className="w-full relative"
             size="lg"
@@ -88,7 +95,7 @@ export const SignIn = (props: Props) => {
             Continue with Google
           </Button>
           <Button
-            onClick={() => {}}
+            onClick={() => handleSignIn('github')}
             variant="outline"
             className="w-full relative"
             size="lg"
@@ -110,3 +117,6 @@ export const SignIn = (props: Props) => {
     </Card>
   );
 };
+
+// https://fabulous-grouse-607.convex.site/api/auth/callback/github
+// 
