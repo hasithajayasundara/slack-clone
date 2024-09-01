@@ -117,6 +117,3 @@ export const SignIn = (props: Props) => {
     </Card>
   );
 };
-
-// https://fabulous-grouse-607.convex.site/api/auth/callback/github
-// 
