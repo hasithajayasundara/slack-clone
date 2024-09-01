@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { FieldValues, useForm } from "react-hook-form";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { TriangleAlert } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,35 +25,49 @@ export const SignIn = (props: Props) => {
   const { onChangeAuthFlow } = props;
   const { signIn } = useAuthActions();
 
+  const [error, setError] = useState("");
   const [isPending, setIsPending] = useState(false);
 
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
   const handlePasswordSignIn = (data: FieldValues) => {
     setIsPending(true);
-    signIn(
-      'password',
-      { email: data.email, password: data.password, flow: AuthFlow.SignIn }
-    ).finally(() => setIsPending(false));
+    setError("");
+    signIn("password", {
+      email: data.email,
+      password: data.password,
+      flow: AuthFlow.SignIn,
+    })
+      .then(() => setError(""))
+      .catch((err) => setError("Invalid error or password"))
+      .finally(() => setIsPending(false));
   };
 
-  const handleSignIn = (value: 'github' | 'google') => {
+  const handleSignIn = (value: "github" | "google") => {
     setIsPending(true);
-    signIn(value).finally(() => setIsPending(false));
+    signIn(value)
+      .then(() => setError(""))
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => setIsPending(false));
   };
 
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="p-0 my-0">
-        <CardTitle className="mb-[0.5rem]">
-          Login to continue
-        </CardTitle>
+        <CardTitle className="mb-[0.5rem]">Login to continue</CardTitle>
       </CardHeader>
+      {Boolean(error) ? (
+        <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
+          <TriangleAlert />
+          <p>{error}</p>
+        </div>
+      ) : null}
       <CardDescription>
         Use your email or another service to continue
       </CardDescription>
@@ -66,21 +81,14 @@ export const SignIn = (props: Props) => {
             placeholder="Email"
             type="email"
             error={errors.email?.message?.toString()}
-            {...register(
-              'email',
-              { required: 'Email is required' }
-            )}
-
+            {...register("email", { required: "Email is required" })}
           />
           <Input
             required
             placeholder="Password"
             type="password"
             error={errors.password?.message?.toString()}
-            {...register(
-              'password',
-              { required: 'Password is required' }
-            )}
+            {...register("password", { required: "Password is required" })}
           />
           <Button
             type="submit"
@@ -94,19 +102,17 @@ export const SignIn = (props: Props) => {
         <Separator />
         <div className="flex flex-col gap-y-2.5">
           <Button
-            onClick={() => handleSignIn('google')}
+            onClick={() => handleSignIn("google")}
             variant="outline"
             className="w-full relative"
             size="lg"
             disabled={isPending}
           >
-            <FcGoogle
-              className="size-5 absolute top-2.5 left-2.5"
-            />
+            <FcGoogle className="size-5 absolute top-2.5 left-2.5" />
             Continue with Google
           </Button>
           <Button
-            onClick={() => handleSignIn('github')}
+            onClick={() => handleSignIn("github")}
             variant="outline"
             className="w-full relative"
             size="lg"

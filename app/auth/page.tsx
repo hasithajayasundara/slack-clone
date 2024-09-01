@@ -1,9 +1,7 @@
-import { AuthScreen } from "@/features"
+import { AuthScreen } from "@/features";
 
 const AuthPage = () => {
-  return (
-    <AuthScreen />
-  );
+  return <AuthScreen />;
 };
 
 export default AuthPage;
