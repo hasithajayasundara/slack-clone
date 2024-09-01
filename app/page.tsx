@@ -1,7 +1,7 @@
-import { SignIn } from "./features/Auth/SignIn";
+import { AuthScreen } from "@/features";
 
 export default function Home() {
   return (
-    <SignIn />
+    <AuthScreen />
   );
 }
