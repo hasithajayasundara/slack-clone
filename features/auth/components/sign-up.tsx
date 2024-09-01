@@ -37,6 +37,7 @@ export const SignUp = (props: Props) => {
   const handlePasswordSignUp = (data: FieldValues) => {
     setIsPending(true);
     signIn("password", {
+      name: data.name,
       email: data.email,
       password: data.password,
       flow: AuthFlow.SignUp,
@@ -79,6 +80,13 @@ export const SignUp = (props: Props) => {
           className="space-y-2.5"
           onSubmit={handleSubmit(handlePasswordSignUp)}
         >
+          <Input
+            required
+            disabled={isPending}
+            placeholder="Name"
+            error={errors.name?.message?.toString()}
+            {...register("name", { required: "Name is required" })}
+          />
           <Input
             required
             disabled={isPending}
