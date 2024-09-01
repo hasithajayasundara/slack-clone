@@ -1,4 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,9 +11,14 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { FaGithub } from "react-icons/fa";
+import { AuthFlow } from "../types";
 
-export const SignIn = () => {
+type Props = {
+  onChangeAuthFlow: (flow: AuthFlow) => void;
+};
+
+export const SignIn = (props: Props) => {
+  const { onChangeAuthFlow } = props;
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="p-0 my-0">
@@ -75,8 +81,9 @@ export const SignIn = () => {
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          Don&apos;t have an account
-          &nbsp;<span
+          Don&apos;t have an account&nbsp;
+          <span
+            onClick={() => onChangeAuthFlow(AuthFlow.SignUp)}
             className="text-sky-700 hover:underline cursor-pointer"
           >
             Sign up

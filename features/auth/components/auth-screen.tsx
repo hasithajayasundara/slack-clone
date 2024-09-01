@@ -11,7 +11,14 @@ export const AuthScreen = () => {
   return (
     <div className="h-full flex items-center justify-center bg-[#5c3b58] ">
       <div className="md:h-auto md:w-[420px]">
-        {authFlow === AuthFlow.SignIn ? <SignIn /> : <SignUp />}
+        {authFlow === AuthFlow.SignIn ? (
+          <SignIn
+            onChangeAuthFlow={(a) => setAuthFlow(a)} />
+        ) : (
+          <SignUp
+            onChangeAuthFlow={(a) => setAuthFlow(a)}
+          />
+        )}
       </div>
     </div>
   );
