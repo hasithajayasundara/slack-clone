@@ -12,6 +12,7 @@ import { AuthFlow } from "../types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { FieldValues, useForm } from "react-hook-form";
 
 
 type Props = {
@@ -20,6 +21,17 @@ type Props = {
 
 export const SignUp = (props: Props) => {
   const { onChangeAuthFlow } = props;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm();
+
+  const handleSignUp = (data: FieldValues) => {
+    console.log(data);
+  };
+
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="p-0 my-0">
@@ -31,30 +43,48 @@ export const SignUp = (props: Props) => {
         Use your email or another service to continue
       </CardDescription>
       <CardContent className="space-y-5 px-0 pb-0 mt-4">
-        <form className="space-y-2.5">
+        <form className="space-y-2.5" onSubmit={handleSubmit(handleSignUp)}>
           <Input
             required
             disabled={false}
-            value=""
-            onChange={() => {}}
             placeholder="Email"
             type="email"
+            error={errors.email?.message?.toString()}
+            {...register(
+              'email',
+              { required: 'Email is required' }
+            )}
           />
           <Input
             required
             disabled={false}
-            value=""
-            onChange={() => {}}
             placeholder="Password"
             type="password"
+            error={errors.password?.message?.toString()}
+            {...register(
+              'password',
+              { required: 'Password is required' }
+            )}
           />
           <Input
             required
             disabled={false}
-            value=""
-            onChange={() => {}}
             placeholder="Confirm password"
             type="password"
+            error={errors.confirmPassword?.message?.toString()}
+            {...register(
+              'confirmPassword',
+              {
+                validate: (value, formValues) => {
+                  const password = formValues.password;
+                  console.log(password);
+                  if (password && value !== password) {
+                    return 'Passwords do not match'
+                  }
+                  return '';
+                }
+              }
+            )}
           />
           <Button
             type="submit"

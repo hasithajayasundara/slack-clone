@@ -1,5 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { FieldValues, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +20,17 @@ type Props = {
 
 export const SignIn = (props: Props) => {
   const { onChangeAuthFlow } = props;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm();
+
+  const handleSignUp = (data: FieldValues) => {
+    console.log(data);
+  };
+
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="p-0 my-0">
@@ -34,18 +46,25 @@ export const SignIn = (props: Props) => {
           <Input
             required
             disabled={false}
-            value=""
-            onChange={() => {}}
             placeholder="Email"
             type="email"
+            error={errors.email?.message?.toString()}
+            {...register(
+              'email',
+              { required: 'Email is required' }
+            )}
+
           />
           <Input
             required
             disabled={false}
-            value=""
-            onChange={() => {}}
             placeholder="Password"
             type="password"
+            error={errors.password?.message?.toString()}
+            {...register(
+              'password',
+              { required: 'Password is required' }
+            )}
           />
           <Button
             type="submit"
