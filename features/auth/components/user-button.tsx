@@ -10,11 +10,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useCurrentUser } from "@/hooks";
+import { useGetCurrentUser } from "@/hooks";
 
 export const UserButton = () => {
   const { signOut } = useAuthActions();
-  const { data, isLoading } = useCurrentUser();
+  const { data, isLoading } = useGetCurrentUser();
 
   if (isLoading) {
     return <Loader className="size-4 animate-spin text-muted-foreground" />;

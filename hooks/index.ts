@@ -1,1 +1,1 @@
-export { useCurrentUser } from './useCurrentUser';
+export { useGetCurrentUser } from './use-get-current-user';
