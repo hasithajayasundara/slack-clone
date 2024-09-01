@@ -46,7 +46,6 @@ export const SignUp = (props: Props) => {
         <form className="space-y-2.5" onSubmit={handleSubmit(handleSignUp)}>
           <Input
             required
-            disabled={false}
             placeholder="Email"
             type="email"
             error={errors.email?.message?.toString()}
@@ -57,7 +56,6 @@ export const SignUp = (props: Props) => {
           />
           <Input
             required
-            disabled={false}
             placeholder="Password"
             type="password"
             error={errors.password?.message?.toString()}
@@ -68,7 +66,6 @@ export const SignUp = (props: Props) => {
           />
           <Input
             required
-            disabled={false}
             placeholder="Confirm password"
             type="password"
             error={errors.confirmPassword?.message?.toString()}

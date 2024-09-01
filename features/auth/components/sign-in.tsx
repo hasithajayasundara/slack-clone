@@ -45,7 +45,6 @@ export const SignIn = (props: Props) => {
         <form className="space-y-2.5">
           <Input
             required
-            disabled={false}
             placeholder="Email"
             type="email"
             error={errors.email?.message?.toString()}
@@ -57,7 +56,6 @@ export const SignIn = (props: Props) => {
           />
           <Input
             required
-            disabled={false}
             placeholder="Password"
             type="password"
             error={errors.password?.message?.toString()}
