@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
 import "./globals.css";
-import { ConvexClientProvider } from "./ConvexClientProvider";
+import { ConvexClientProvider } from "../components/convex-client-provider";
 
 export const metadata: Metadata = {
   title: "Collabo",
