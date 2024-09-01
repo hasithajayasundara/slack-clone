@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { FieldValues, useForm } from "react-hook-form";
@@ -23,6 +24,8 @@ export const SignIn = (props: Props) => {
   const { onChangeAuthFlow } = props;
   const { signIn } = useAuthActions();
 
+  const [isPending, setIsPending] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -30,12 +33,17 @@ export const SignIn = (props: Props) => {
     formState: { errors }
   } = useForm();
 
-  const handleSignUp = (data: FieldValues) => {
-    console.log(data);
+  const handlePasswordSignIn = (data: FieldValues) => {
+    setIsPending(true);
+    signIn(
+      'password',
+      { email: data.email, password: data.password, flow: AuthFlow.SignIn }
+    ).finally(() => setIsPending(false));
   };
 
   const handleSignIn = (value: 'github' | 'google') => {
-    signIn(value);
+    setIsPending(true);
+    signIn(value).finally(() => setIsPending(false));
   };
 
   return (
@@ -49,7 +57,10 @@ export const SignIn = (props: Props) => {
         Use your email or another service to continue
       </CardDescription>
       <CardContent className="space-y-5 px-0 pb-0 mt-4">
-        <form className="space-y-2.5">
+        <form
+          className="space-y-2.5"
+          onSubmit={handleSubmit(handlePasswordSignIn)}
+        >
           <Input
             required
             placeholder="Email"
@@ -75,7 +86,7 @@ export const SignIn = (props: Props) => {
             type="submit"
             className="w-full"
             size="lg"
-            disabled={false}
+            disabled={isPending}
           >
             Submit
           </Button>
@@ -87,7 +98,7 @@ export const SignIn = (props: Props) => {
             variant="outline"
             className="w-full relative"
             size="lg"
-            disabled={false}
+            disabled={isPending}
           >
             <FcGoogle
               className="size-5 absolute top-2.5 left-2.5"
@@ -99,6 +110,7 @@ export const SignIn = (props: Props) => {
             variant="outline"
             className="w-full relative"
             size="lg"
+            disabled={isPending}
           >
             <FaGithub className="size-5 absolute top-2.5 left-2.5" />
             Continue with Github

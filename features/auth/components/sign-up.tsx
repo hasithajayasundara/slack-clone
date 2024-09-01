@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 import {
   Card,
@@ -21,6 +23,9 @@ type Props = {
 
 export const SignUp = (props: Props) => {
   const { onChangeAuthFlow } = props;
+  const [isPending, setIsPending] = useState(false);
+  const { signIn } = useAuthActions();
+
   const {
     register,
     handleSubmit,
@@ -30,6 +35,11 @@ export const SignUp = (props: Props) => {
 
   const handleSignUp = (data: FieldValues) => {
     console.log(data);
+    setIsPending(true);
+    signIn(
+      'password',
+      { email: data.email, password: data.password, flow: AuthFlow.SignUp }
+    ).finally(() => setIsPending(false));
   };
 
   return (
@@ -43,9 +53,13 @@ export const SignUp = (props: Props) => {
         Use your email or another service to continue
       </CardDescription>
       <CardContent className="space-y-5 px-0 pb-0 mt-4">
-        <form className="space-y-2.5" onSubmit={handleSubmit(handleSignUp)}>
+        <form
+          className="space-y-2.5"
+          onSubmit={handleSubmit(handleSignUp)}
+        >
           <Input
             required
+            disabled={isPending}
             placeholder="Email"
             type="email"
             error={errors.email?.message?.toString()}
@@ -56,6 +70,7 @@ export const SignUp = (props: Props) => {
           />
           <Input
             required
+            disabled={isPending}
             placeholder="Password"
             type="password"
             error={errors.password?.message?.toString()}
@@ -66,15 +81,16 @@ export const SignUp = (props: Props) => {
           />
           <Input
             required
+            disabled={isPending}
             placeholder="Confirm password"
             type="password"
             error={errors.confirmPassword?.message?.toString()}
             {...register(
               'confirmPassword',
               {
+                required: 'Please confirm password',
                 validate: (value, formValues) => {
                   const password = formValues.password;
-                  console.log(password);
                   if (password && value !== password) {
                     return 'Passwords do not match'
                   }
@@ -87,7 +103,7 @@ export const SignUp = (props: Props) => {
             type="submit"
             className="w-full"
             size="lg"
-            disabled={false}
+            disabled={isPending}
           >
             Submit
           </Button>
@@ -99,7 +115,7 @@ export const SignUp = (props: Props) => {
             variant="outline"
             className="w-full relative"
             size="lg"
-            disabled={false}
+            disabled={isPending}
           >
             <FcGoogle
               className="size-5 absolute top-2.5 left-2.5"
@@ -107,7 +123,7 @@ export const SignUp = (props: Props) => {
             Continue with Google
           </Button>
           <Button
-            onClick={() => {}}
+            disabled={isPending}
             variant="outline"
             className="w-full relative"
             size="lg"

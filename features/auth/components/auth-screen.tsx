@@ -14,11 +14,12 @@ export const AuthScreen = () => {
         {authFlow === AuthFlow.SignIn ? (
           <SignIn
             onChangeAuthFlow={(a) => setAuthFlow(a)} />
-        ) : (
+        ) : null}
+        {authFlow === AuthFlow.SignUp ? (
           <SignUp
             onChangeAuthFlow={(a) => setAuthFlow(a)}
           />
-        )}
+        ) : null}
       </div>
     </div>
   );
