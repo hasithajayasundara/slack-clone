@@ -1,6 +1,7 @@
 'use client';
 
 import { FieldValues, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -12,9 +13,11 @@ import { useCreateWorkspace } from "@/hooks";
 import { useWorkspaceStore } from "@/store";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { toast } from "sonner";
 
 export const CreateWorkspaceModal = () => {
+  const router = useRouter();
+
   const { isCreateWorkspaceModalOpen, setCreateWorkspaceModalOpen } =
     useWorkspaceStore();
   const { register, handleSubmit, formState: { errors }, } = useForm();
@@ -26,14 +29,14 @@ export const CreateWorkspaceModal = () => {
   };
 
   const handleCreateWorkspace = ({ name }: FieldValues) => {
-    mutate({ name });
+    mutate({ name }, {
+      onSuccess(id) {
+        toast.success('Workspace created');
+        setCreateWorkspaceModalOpen(false);
+        router.push(`/workspace/${id}`);
+      }
+    });
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      setCreateWorkspaceModalOpen(false);
-    }
-  }, [isSuccess, setCreateWorkspaceModalOpen]);
 
   return (
     <Dialog open={isCreateWorkspaceModalOpen} onOpenChange={handleClose}>
@@ -44,6 +47,7 @@ export const CreateWorkspaceModal = () => {
         <form className="space-y-4" onSubmit={handleSubmit(handleCreateWorkspace)}>
           <Input
             required
+            placeholder="Workspace name"
             error={errors.name?.message?.toString()}
             {...register('name', { required: 'Workspace name is required' })}
           />

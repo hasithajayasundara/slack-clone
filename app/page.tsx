@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 
 import { UserButton } from "@/features/auth/components/user-button";
 import { useGetWorkspaces } from "@/hooks";
 import { useWorkspaceStore } from "@/store";
 
-export default function Home() {
+const Home = () => {
+  const router = useRouter();
   const { data, isLoading } = useGetWorkspaces();
   const { isCreateWorkspaceModalOpen, setCreateWorkspaceModalOpen } =
     useWorkspaceStore();
@@ -18,15 +20,16 @@ export default function Home() {
     }
 
     if (workspaceId) {
-      console.log("Redeirec if");
+      router.replace(`/workspace/${workspaceId}`);
     } else if (!isCreateWorkspaceModalOpen) {
       setCreateWorkspaceModalOpen(true);
     }
   }, [
-    isCreateWorkspaceModalOpen,
+    router,
     isLoading,
-    setCreateWorkspaceModalOpen,
     workspaceId,
+    isCreateWorkspaceModalOpen,
+    setCreateWorkspaceModalOpen,
   ]);
 
   return (
@@ -35,3 +38,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;
