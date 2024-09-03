@@ -1,13 +1,33 @@
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useCreateWorkspace } from "@/hooks";
 import { useWorkspaceStore } from "@/store";
-import { DialogTitle } from "@radix-ui/react-dialog";
 
 export const CreateWorkspaceModal = () => {
   const { isCreateWorkspaceModalOpen, setCreateWorkspaceModalOpen } =
     useWorkspaceStore();
 
+  const { mutate } = useCreateWorkspace();
+
   const handleClose = () => {
     setCreateWorkspaceModalOpen(false);
+  };
+
+  const handleSubmit = () => {
+    mutate({
+      name: "Workspace 1",
+    },{
+      onSuccess(){
+
+      }, 
+      onError(){
+        
+      }
+    });
   };
 
   return (

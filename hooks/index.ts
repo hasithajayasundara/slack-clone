@@ -1,2 +1,2 @@
-export { useGetCurrentUser } from './use-get-current-user';
-export { useGetWorkspaces } from './use-get-workspaces'; 
+export { useGetCurrentUser } from './use-current-user';
+export { useGetWorkspaces, useCreateWorkspace } from './use-workspaces'; 
