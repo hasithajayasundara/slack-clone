@@ -2,6 +2,7 @@
 
 import { FieldValues, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -13,7 +14,6 @@ import { useCreateWorkspace } from "@/hooks";
 import { useWorkspaceStore } from "@/store";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 
 export const CreateWorkspaceModal = () => {
   const router = useRouter();
