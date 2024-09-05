@@ -39,12 +39,18 @@ export const CreateWorkspaceModal = () => {
   };
 
   return (
-    <Dialog open={isCreateWorkspaceModalOpen} onOpenChange={handleClose}>
+    <Dialog
+      open={isCreateWorkspaceModalOpen}
+      onOpenChange={handleClose}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add a workspace</DialogTitle>
         </DialogHeader>
-        <form className="space-y-4" onSubmit={handleSubmit(handleCreateWorkspace)}>
+        <form
+          className="space-y-4"
+          onSubmit={handleSubmit(handleCreateWorkspace)}
+        >
           <Input
             required
             placeholder="Workspace name"

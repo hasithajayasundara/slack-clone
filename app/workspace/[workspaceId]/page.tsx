@@ -1,13 +1,23 @@
+'use client';
+
+import {
+  useGetWorkspace,
+  useWorkspaceId,
+} from "@/hooks";
+
 type Props = {
   params: {
     workspaceId: string;
   }
 };
 
-const Workspace = ({ params: { workspaceId } }: Props) => {
+const Workspace = () => {
+  const workspaceId = useWorkspaceId();
+  const { data, isLoading } = useGetWorkspace({ id: workspaceId });
+
   return (
     <div>
-      {workspaceId}
+      {JSON.stringify(data)}
     </div>
   )
 };

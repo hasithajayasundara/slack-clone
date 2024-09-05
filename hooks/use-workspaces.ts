@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
+import { useParams } from "next/navigation";
 
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -20,6 +21,13 @@ export const useGetWorkspaces = () => {
   const isLoading = data === undefined;
   return { data, isLoading };
 };
+
+export const useGetWorkspace = ({ id }: { id: Id<"workspaces"> }) => {
+  const data = useQuery(api.workspaces.getById, { id });
+  const isLoading = data === undefined;
+  return { data, isLoading };
+};
+
 
 export const useCreateWorkspace = () => {
   const [data, setData] = useState<ResponseType>(null);
@@ -64,4 +72,10 @@ export const useCreateWorkspace = () => {
     isSuccess,
     isPending,
   };
+};
+
+export const useWorkspaceId = () => {
+  const params = useParams();
+
+  return params.workspaceId as Id<"workspaces">;
 };
