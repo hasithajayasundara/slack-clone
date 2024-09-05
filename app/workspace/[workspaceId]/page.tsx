@@ -17,7 +17,7 @@ const Workspace = () => {
 
   return (
     <div>
-      {JSON.stringify(data)}
+      Workspace id
     </div>
   )
 };
