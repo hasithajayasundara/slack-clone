@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { Hint } from "@/components/hint";
 
 type Props = {
   isAdmin: boolean;
@@ -65,12 +66,16 @@ export const WorkspaceHeader = ({ workspace, isAdmin }: Props) => {
         </DropdownMenuContent>
       </DropdownMenu>
       <div className="flex items-center gap-0.5">
-        <Button variant="transparent" size="iconSm">
-          <ListFilter className="size-4" />
-        </Button>
-        <Button variant="transparent" size="iconSm">
-          <SquarePen className="size-4" />
-        </Button>
+        <Hint label="Filter conversation" side="bottom">
+          <Button variant="transparent" size="iconSm">
+            <ListFilter className="size-4" />
+          </Button>
+        </Hint>
+        <Hint label="New message" side="bottom">
+          <Button variant="transparent" size="iconSm">
+            <SquarePen className="size-4" />
+          </Button>
+        </Hint>
       </div>
     </div>
   );
