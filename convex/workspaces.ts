@@ -18,6 +18,12 @@ export const create = mutation({
       joinCode,
     });
 
+    await ctx.db.insert("members", {
+      userId,
+      workspaceId,
+      role: "admin"
+    });
+
     return workspaceId;
   }
 });
@@ -25,7 +31,26 @@ export const create = mutation({
 export const get = query({
   args: {},
   handler: async (ctx) => {
-    return await ctx.db.query('workspaces').collect();
+    const userId = await auth.getUserId(ctx);
+    if (!userId) {
+      return [];
+    }
+
+    const members = await ctx.db.query("members")
+      .withIndex("by_user_id", (q) => q.eq("userId", userId))
+      .collect();
+
+    const workspaceIds = members.map((m) => m.userId);
+    const workspaces = [];
+
+    for (const id of workspaceIds) {
+      const workspace = await ctx.db.get(id);
+      if (workspace) {
+        workspaces.push(workspace);
+      }
+    }
+
+    return workspaces;
   }
 });
 
@@ -36,6 +61,17 @@ export const getById = query({
 
     if (!userId) {
       throw new Error('Unauthorized');
+    }
+
+    const member = await ctx.db
+      .query("members")
+      .withIndex(
+        "by_workspace_id_user_id",
+        (q) => q.eq("workspaceId", args.id).eq("userId", userId)
+      ).unique();
+
+    if (!member) {
+      return null;
     }
 
     return await ctx.db.get(args.id);
