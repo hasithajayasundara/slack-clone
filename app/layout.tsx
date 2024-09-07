@@ -7,7 +7,7 @@ import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "Collabo",
+  title: "mini-slack",
 };
 
 export default function RootLayout({

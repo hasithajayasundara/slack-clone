@@ -1,16 +1,25 @@
-import { AlertTriangle, Loader } from "lucide-react";
+import {
+  AlertTriangle,
+  HashIcon,
+  Loader,
+  MessageSquareText,
+  SendHorizontal
+} from "lucide-react";
 
 import {
   useCurrentMember,
+  useGetChannels,
   useGetWorkspace,
   useWorkspaceId,
 } from "@/hooks";
 import { WorkspaceHeader } from "./workspace-header";
+import { SidebarItem } from "./sidebar-item";
 
 export const WorkspaceSidebar = () => {
   const workspaceId = useWorkspaceId();
   const { data: member, isLoading: loadingMember } = useCurrentMember({ workspaceId });
   const { data: workspace, isLoading: loadingWorkspace } = useGetWorkspace({ id: workspaceId });
+  const { data: channels, isLoading: loadingChannels } = useGetChannels({ workspaceId });
 
   if (loadingWorkspace || loadingMember) {
     return (
@@ -37,6 +46,26 @@ export const WorkspaceSidebar = () => {
         isAdmin={member.role === 'admin'}
         workspace={workspace}
       />
+      <div className="flex flex-col px-2 mt-3">
+        <SidebarItem
+          label="Threads"
+          icon={MessageSquareText}
+          id="threads"
+        />
+        <SidebarItem
+          label="Drafts and sent"
+          icon={SendHorizontal}
+          id="drafts"
+        />
+        {channels?.map((item) => (
+          <SidebarItem
+            key={item._id}
+            icon={HashIcon}
+            label={item.name}
+            id={item._id}
+          />
+        ))}
+      </div>
     </div>
   )
 };

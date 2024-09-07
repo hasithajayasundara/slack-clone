@@ -9,3 +9,4 @@ export {
 } from './use-workspaces';
 export { useCurrentMember } from './use-members';
 export { useConfirm } from './use-confirm';
+export { useGetChannels } from './channels';
