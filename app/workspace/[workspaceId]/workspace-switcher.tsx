@@ -57,7 +57,7 @@ export const WorkspaceSwitcher = () => {
               {w?.name.charAt(0).toUpperCase()}
             </div>
             <p className="truncate">
-            {w?.name}
+              {w?.name}
             </p>
           </DropdownMenuItem>
         ))}

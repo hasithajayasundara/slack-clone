@@ -1,6 +1,14 @@
 import { v } from 'convex/values';
+
 import { mutation, query } from './_generated/server';
 import { auth } from './auth';
+
+const text = '0123456789abcdefghijklmnopqrstuvwxyz';
+
+const generateCode = () => {
+  const code = Array.from({ length: 6 }, () => text[Math.floor(Math.random() * 36)]).join('');
+  return code;
+};
 
 export const create = mutation({
   args: { name: v.string() },
@@ -10,12 +18,10 @@ export const create = mutation({
       throw new Error('Unauthorized');
     }
 
-    // TODO: Dynamic join code
-    const joinCode = '123456';
     const workspaceId = await ctx.db.insert('workspaces', {
       name: args.name,
       userId,
-      joinCode,
+      joinCode: generateCode(),
     });
 
     await ctx.db.insert("members", {
@@ -40,7 +46,7 @@ export const get = query({
       .withIndex("by_user_id", (q) => q.eq("userId", userId))
       .collect();
 
-    const workspaceIds = members.map((m) => m.userId);
+    const workspaceIds = members.map((m) => m.workspaceId);
     const workspaces = [];
 
     for (const id of workspaceIds) {

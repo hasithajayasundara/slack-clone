@@ -14,7 +14,7 @@ export const Toolbar = () => {
           <Search className="size-4 text-white mr-2" />
           <span className="text-white text-xs">
             Search {data?.name}
-            </span>
+          </span>
         </Button>
       </div>
       <div className="ml-auto flex-1 flex items-center justify-end">
