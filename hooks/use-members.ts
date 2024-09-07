@@ -7,3 +7,9 @@ export const useCurrentMember = ({ workspaceId }: { workspaceId: Id<"workspaces"
   const isLoading = data === undefined;
   return { data, isLoading };
 };
+
+export const useGetMembers = ({ workspaceId }: { workspaceId: Id<"workspaces"> }) => {
+  const data = useQuery(api.members.get, { workspaceId });
+  const isLoading = data === undefined;
+  return { data, isLoading };
+};

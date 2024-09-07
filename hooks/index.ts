@@ -7,6 +7,9 @@ export {
   useWorkspaceId,
   useGetWorkspace,
 } from './use-workspaces';
-export { useCurrentMember } from './use-members';
+export {
+  useCurrentMember,
+  useGetMembers,
+} from './use-members';
 export { useConfirm } from './use-confirm';
 export { useGetChannels } from './channels';

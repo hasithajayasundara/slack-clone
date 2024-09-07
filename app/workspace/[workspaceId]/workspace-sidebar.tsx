@@ -9,17 +9,22 @@ import {
 import {
   useCurrentMember,
   useGetChannels,
+  useGetMembers,
   useGetWorkspace,
   useWorkspaceId,
 } from "@/hooks";
 import { WorkspaceHeader } from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
+import { WorkspaceSection } from "./workspace-section";
+import { UserItem } from "./user-item";
 
 export const WorkspaceSidebar = () => {
   const workspaceId = useWorkspaceId();
+  const { data: currentMember, isLoading: isLoadingCurrentMember } = useCurrentMember({ workspaceId });
   const { data: member, isLoading: loadingMember } = useCurrentMember({ workspaceId });
   const { data: workspace, isLoading: loadingWorkspace } = useGetWorkspace({ id: workspaceId });
   const { data: channels, isLoading: loadingChannels } = useGetChannels({ workspaceId });
+  const { data: members, isLoading: loadingMembers } = useGetMembers({ workspaceId });
 
   if (loadingWorkspace || loadingMember) {
     return (
@@ -57,6 +62,12 @@ export const WorkspaceSidebar = () => {
           icon={SendHorizontal}
           id="drafts"
         />
+      </div>
+      <WorkspaceSection
+        label="channels"
+        hint="New channel"
+        onNew={() => {}}
+      >
         {channels?.map((item) => (
           <SidebarItem
             key={item._id}
@@ -65,7 +76,15 @@ export const WorkspaceSidebar = () => {
             id={item._id}
           />
         ))}
-      </div>
+      </WorkspaceSection>
+      {members?.map((item) => (
+        <UserItem
+          key={item._id}
+          id={item._id}
+          label={item.user.name}
+          image={item.user.image}
+        />
+      ))}
     </div>
   )
 };
