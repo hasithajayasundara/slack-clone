@@ -7,6 +7,8 @@ export {
   useWorkspaceId,
   useGetWorkspace,
   useUpdateJoinCode,
+  useJoin,
+  useGetWorkspaceInfo,
 } from './use-workspaces';
 export {
   useCurrentMember,
