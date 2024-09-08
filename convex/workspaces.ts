@@ -71,7 +71,8 @@ export const getById = query({
     const userId = await auth.getUserId(ctx);
 
     if (!userId) {
-      throw new Error('Unauthorized');
+      // TODO: this causes error when using providers
+      throw new Error('Unauthorized');;
     }
 
     const member = await ctx.db

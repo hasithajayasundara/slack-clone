@@ -12,4 +12,7 @@ export {
   useGetMembers,
 } from './use-members';
 export { useConfirm } from './use-confirm';
-export { useGetChannels } from './use-channels';
+export {
+  useGetChannels,
+  useCreateChannel,
+} from './use-channels';

@@ -17,14 +17,16 @@ import { WorkspaceHeader } from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
 import { WorkspaceSection } from "./workspace-section";
 import { UserItem } from "./user-item";
+import { useChannelStore } from "@/store";
 
 export const WorkspaceSidebar = () => {
   const workspaceId = useWorkspaceId();
-  const { data: currentMember, isLoading: isLoadingCurrentMember } = useCurrentMember({ workspaceId });
   const { data: member, isLoading: loadingMember } = useCurrentMember({ workspaceId });
   const { data: workspace, isLoading: loadingWorkspace } = useGetWorkspace({ id: workspaceId });
   const { data: channels, isLoading: loadingChannels } = useGetChannels({ workspaceId });
   const { data: members, isLoading: loadingMembers } = useGetMembers({ workspaceId });
+
+  const { setCreateChannelModalOpen } = useChannelStore();
 
   if (loadingWorkspace || loadingMember) {
     return (
@@ -66,7 +68,10 @@ export const WorkspaceSidebar = () => {
       <WorkspaceSection
         label="Channels"
         hint="New channel"
-        onNew={() => {}}
+        onNew={member.role === 'admin'
+          ? () => setCreateChannelModalOpen(true)
+          : undefined
+        }
       >
         {channels?.map((item) => (
           <SidebarItem

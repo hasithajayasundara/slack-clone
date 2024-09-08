@@ -50,15 +50,17 @@ export const create = mutation({
         (q) => q.eq("workspaceId", args.id).eq("userId", userId)
       ).unique();
 
-    if (!member) {
+    if (!member || member.role !== 'admin') {
       throw new Error('Unauthorized');
     }
 
-    await ctx.db.insert("channels", {
+    const parsedName = args.name.replace(/\s+/g, "").toLowerCase();
+
+    const channelId = await ctx.db.insert("channels", {
       workspaceId: args.id,
-      name: args.name,
+      name: parsedName,
     });
 
-    return args.id;
+    return channelId;
   }
 });
