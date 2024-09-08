@@ -36,7 +36,10 @@ export const useConfirm = ({ title, message }: Params): [() => JSX.Element, () =
   };
 
   const ConfirmDialog = () => (
-    <Dialog open={promise !== null}>
+    <Dialog
+      open={promise !== null}
+      onOpenChange={(flag) => flag ? undefined : setPromise(null)}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
@@ -50,7 +53,7 @@ export const useConfirm = ({ title, message }: Params): [() => JSX.Element, () =
           <Button onClick={handleCancel} variant="outline">
             Cancel
           </Button>
-          <Button onClick={handleConfirm} variant="outline">
+          <Button onClick={handleConfirm}>
             Confirm
           </Button>
         </DialogFooter>

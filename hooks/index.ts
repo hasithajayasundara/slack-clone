@@ -19,4 +19,7 @@ export {
   useGetChannels,
   useCreateChannel,
   useChannelId,
+  useGetChannel,
+  useRemoveChannel,
+  useUpdateChannel,
 } from './use-channels';
