@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { TrashIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,8 +19,10 @@ import { Input } from "@/components/ui/input";
 import {
   useChannelId,
   useConfirm,
+  useCurrentMember,
   useRemoveChannel,
   useUpdateChannel,
+  useWorkspaceId,
 } from "@/hooks";
 
 type Props = {
@@ -27,14 +30,16 @@ type Props = {
 };
 
 export const ChannelHeader = ({ title }: Props) => {
+  const router = useRouter();
   const channelId = useChannelId();
+  const workspaceId = useWorkspaceId();
   const [editOpen, setEditOpen] = useState(false);
-
   const [ConfirmDialog, confirm] = useConfirm({
     title: 'Are you sure?',
     message: 'This action is irreversible'
   });
 
+  const { data: member } = useCurrentMember({ workspaceId });
   const { updateChannel, isUpdatingChannel } = useUpdateChannel();
   const { removeChannel, isRemovingChannel } = useRemoveChannel();
 
@@ -43,6 +48,8 @@ export const ChannelHeader = ({ title }: Props) => {
       name: title,
     }
   });
+
+  const isAdmin = useMemo(() => member?.role === 'admin', [member?.role]);
 
   const handleChannelUpdate = (values: FieldValues) => {
     updateChannel({ name: values.name, id: channelId }, {
@@ -66,6 +73,7 @@ export const ChannelHeader = ({ title }: Props) => {
     removeChannel({ id: channelId }, {
       onSuccess: () => {
         toast.success('Channel removed');
+        router.replace(`/workspace/${workspaceId}`);
       },
       onError: () => {
         toast.error('Failed to remove channel');
@@ -96,16 +104,21 @@ export const ChannelHeader = ({ title }: Props) => {
               </DialogTitle>
             </DialogHeader>
             <div className="px-4 pb-4 flex flex-col gap-y-2">
-              <Dialog open={editOpen} onOpenChange={setEditOpen}>
+              <Dialog
+                open={editOpen}
+                onOpenChange={isAdmin ? setEditOpen : undefined}
+              >
                 <DialogTrigger asChild>
                   <div className="px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-semibold">
                         Channel name
                       </p>
-                      <p className="text-sm text-[#1264a3] hover:underline font-semibold">
-                        Edit
-                      </p>
+                      {isAdmin && (
+                        <p className="text-sm text-[#1264a3] hover:underline font-semibold">
+                          Edit
+                        </p>
+                      )}
                     </div>
                     <p className="text-sm"># {title}</p>
                   </div>
@@ -151,14 +164,16 @@ export const ChannelHeader = ({ title }: Props) => {
                   </form>
                 </DialogContent>
               </Dialog>
-              <button
-                disabled={isUpdatingChannel || isRemovingChannel}
-                onClick={handleDelete}
-                className="flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg cursor-pointer border hover:bg-gray-50 text-rose-600"
-              >
-                <TrashIcon className="size-4" />
-                <p className="text-sm font-semibold">Delete channel</p>
-              </button>
+              {isAdmin && (
+                <button
+                  disabled={isUpdatingChannel || isRemovingChannel}
+                  onClick={handleDelete}
+                  className="flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg cursor-pointer border hover:bg-gray-50 text-rose-600"
+                >
+                  <TrashIcon className="size-4" />
+                  <p className="text-sm font-semibold">Delete channel</p>
+                </button>
+              )}
             </div>
           </DialogContent>
         </Dialog>
