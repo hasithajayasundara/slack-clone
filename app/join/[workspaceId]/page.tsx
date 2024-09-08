@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import VerificationInput from 'react-verification-input';
@@ -17,6 +18,14 @@ const JoinPage = () => {
   const router = useRouter();
   const { data, isLoading } = useGetWorkspaceInfo({ id: workspaceId });
   const { joinWorkspace, isJoiningWorkspace } = useJoin();
+
+  const isMember = useMemo(() => data?.isMember, [data?.isMember]);
+
+  useEffect(() => {
+    if (isMember) {
+      router.push(`/workspace/${workspaceId}`);
+    }
+  }, [isMember, router, workspaceId]);
 
   const handleComplete = (value: string) => {
     joinWorkspace(
