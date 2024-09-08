@@ -1,9 +1,15 @@
 'use client';
 
+import { useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { Loader, TriangleAlert } from "lucide-react";
+
 import {
+  useGetChannels,
   useGetWorkspace,
   useWorkspaceId,
 } from "@/hooks";
+import { useChannelStore } from "@/store";
 
 type Props = {
   params: {
@@ -13,13 +19,60 @@ type Props = {
 
 const Workspace = () => {
   const workspaceId = useWorkspaceId();
-  const { data, isLoading } = useGetWorkspace({ id: workspaceId });
+  const {
+    isCreateChannelModalOpen,
+    setCreateChannelModalOpen
+  } = useChannelStore();
 
-  return (
-    <div>
-      Workspace id
-    </div>
-  )
+  const router = useRouter();
+
+  const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
+  const { data: channels, isLoading: channelsLoading } = useGetChannels({ workspaceId });
+
+  const channelId = useMemo(() => channels?.[0]?._id, [channels]);
+
+  useEffect(() => {
+    if (workspaceLoading || channelsLoading || !workspace) {
+      return;
+    }
+
+    if (channelId) {
+      router.push(`/workspace/${workspaceId}/channel/${channelId}`);
+    } else if (!isCreateChannelModalOpen) {
+      setCreateChannelModalOpen(true);
+    }
+  }, [
+    router,
+    channelId,
+    workspace,
+    workspaceId,
+    channelsLoading,
+    workspaceLoading,
+    isCreateChannelModalOpen,
+    setCreateChannelModalOpen
+  ]);
+
+  if (workspaceLoading || channelsLoading) {
+    return (
+      <div className="h-full flex-1 flex items-center justify-center flex-col gap-2">
+        <Loader className="animate-spin size-6 text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (!workspace) {
+    return (
+      <div className="h-full flex-1 flex items-center justify-center flex-col gap-2">
+        <TriangleAlert className="animate-spin size-6 text-muted-foreground" />
+        <span className="text-sm text-muted-foreground">
+          Workspace not found
+        </span>
+      </div>
+    );
+  }
+
+
+  return null;
 };
 
 export default Workspace;
