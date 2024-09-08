@@ -8,9 +8,12 @@ import { Id } from "@/convex/_generated/dataModel";
 type CreateRequest = { name: string };
 type UpdateRequest = { id: Id<"workspaces">, name: string };
 type RemoveRequest = { id: Id<"workspaces"> };
+type UpdateJoinCodeRequest = { id: Id<"workspaces"> };
+
 type CreateResponse = Id<"workspaces"> | null;
 type UpdateResponse = Id<"workspaces"> | null;
 type RemoveResponse = Id<"workspaces"> | null;
+type UpdateJoinCodeResponse = Id<"workspaces"> | null;
 
 type Options = {
   onSuccess?: (data: CreateResponse) => void;
@@ -170,5 +173,50 @@ export const useRemoveWorkspace = () => {
     isSettled,
     isSuccess,
     isRemovingWorkspace: isPending,
+  };
+};
+
+export const useUpdateJoinCode = () => {
+  const [data, setData] = useState<UpdateJoinCodeResponse>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [state, setState] = useState<"success" | "error" | "settled" | "pending" | "idle">("idle");
+
+  const isPending = useMemo(() => state === "pending", [state]);
+  const isError = useMemo(() => state === "error", [state]);
+  const isSettled = useMemo(() => state === "settled", [state]);
+  const isSuccess = useMemo(() => state === "success", [state]);
+
+  const mutation = useMutation(api.workspaces.newJoinCode);
+
+  const mutate = useCallback(async (values: UpdateJoinCodeRequest, options?: Options) => {
+    try {
+      setData(null);
+      setError(null);
+      setState("pending");
+      const response = await mutation(values);
+      options?.onSuccess?.(response);
+      setData(response);
+      setState("success");
+      return response;
+    } catch (err) {
+      options?.onError?.(err as Error);
+      if (options?.throwError) {
+        throw err;
+      }
+      setError(err as Error);
+      setState("error");
+    } finally {
+      options?.onSettled?.();
+    }
+  }, [mutation]);
+
+  return {
+    updateJoinCode: mutate,
+    data,
+    error,
+    isError,
+    isSettled,
+    isSuccess,
+    isUpdatingJoinCode: isPending,
   };
 };
