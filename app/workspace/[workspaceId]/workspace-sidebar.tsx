@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 
 import {
+  useChannelId,
   useCurrentMember,
   useGetChannels,
   useGetMembers,
@@ -21,6 +22,8 @@ import { useChannelStore } from "@/store";
 
 export const WorkspaceSidebar = () => {
   const workspaceId = useWorkspaceId();
+  const channelId = useChannelId();
+
   const { data: member, isLoading: loadingMember } = useCurrentMember({ workspaceId });
   const { data: workspace, isLoading: loadingWorkspace } = useGetWorkspace({ id: workspaceId });
   const { data: channels, isLoading: loadingChannels } = useGetChannels({ workspaceId });
@@ -79,6 +82,7 @@ export const WorkspaceSidebar = () => {
             icon={HashIcon}
             label={item.name}
             id={item._id}
+            variant={channelId === item._id ? 'active' : 'default'}
           />
         ))}
       </WorkspaceSection>

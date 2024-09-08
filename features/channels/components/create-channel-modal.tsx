@@ -2,6 +2,7 @@
 
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -15,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { useCreateChannel, useWorkspaceId } from "@/hooks";
 
 export const CreateChannelModal = () => {
+  const router = useRouter();
+
   const workspaceId = useWorkspaceId();
   const {
     isCreateChannelModalOpen,
@@ -35,11 +38,11 @@ export const CreateChannelModal = () => {
       id: workspaceId,
       name: value.name,
     }, {
-      onSuccess: () => {
+      onSuccess: (id) => {
         toast.success('Channel created');
         reset();
         setCreateChannelModalOpen(false);
-
+        router.push(`/workspace/${workspaceId}/channel/${id}`);
       },
       onError: () => {
         toast.error('Failed to create channel');

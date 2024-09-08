@@ -18,4 +18,5 @@ export { useConfirm } from './use-confirm';
 export {
   useGetChannels,
   useCreateChannel,
+  useChannelId,
 } from './use-channels';

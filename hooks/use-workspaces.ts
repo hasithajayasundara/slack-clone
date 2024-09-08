@@ -24,6 +24,10 @@ type Options = {
   throwError?: boolean;
 };
 
+export const useWorkspaceId = () => {
+  const params = useParams();
+  return params.workspaceId as Id<"workspaces">;
+};
 
 export const useGetWorkspaces = () => {
   const data = useQuery(api.workspaces.get);
@@ -86,11 +90,6 @@ export const useCreateWorkspace = () => {
     isSuccess,
     isPending,
   };
-};
-
-export const useWorkspaceId = () => {
-  const params = useParams();
-  return params.workspaceId as Id<"workspaces">;
 };
 
 export const useUpdateWorkspace = () => {

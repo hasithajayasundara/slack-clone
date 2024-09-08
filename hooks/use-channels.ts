@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
+import { useParams } from "next/navigation";
 
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -17,6 +18,11 @@ type Options = {
 
 type Params = {
   workspaceId: Id<"workspaces">;
+};
+
+export const useChannelId = () => {
+  const params = useParams();
+  return params.channelId as Id<"channels">;
 };
 
 export const useGetChannels = ({ workspaceId }: Params) => {
