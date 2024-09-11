@@ -7,6 +7,7 @@ import {
   useGetChannel
 } from "@/hooks";
 import { ChannelHeader } from "./channel-header";
+import { ChatInput } from "./chat-input";
 
 const Channel = () => {
   const channelId = useChannelId();
@@ -34,6 +35,8 @@ const Channel = () => {
   return (
     <div className="flex flex-col h-full">
       <ChannelHeader title={channel.name} />
+      <div className="flex-1" />
+      <ChatInput />
     </div>
   )
 };
