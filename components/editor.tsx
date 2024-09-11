@@ -41,7 +41,7 @@ const Editor = ({
 }: Props) => {
 
   const [text, setText] = useState('');
-  const [isToolBarVisible, setIsToolbarVisible] = useState(false);
+  const [isToolBarVisible, setIsToolbarVisible] = useState(true);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const submitRef = useRef(onSubmit);
