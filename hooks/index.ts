@@ -23,3 +23,6 @@ export {
   useRemoveChannel,
   useUpdateChannel,
 } from './use-channels';
+export {
+  useCreateMessage,
+} from './use-messages';
