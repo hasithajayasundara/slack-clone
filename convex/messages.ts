@@ -197,7 +197,6 @@ export const create = mutation({
       conversationId: _conversationId,
       image: args.image,
       parentMessageId: args.parentMessageId,
-      updatedAt: Date.now(),
     });
 
     return messageId;
