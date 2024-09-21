@@ -1,8 +1,16 @@
 import { useCallback, useMemo, useState } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, usePaginatedQuery } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+
+const BATCH_SIZE = 20;
+
+type GetMessageRequest = {
+  channelId?: Id<"channels">
+  conversationId?: Id<"conversations">;
+  parentMessageId?: Id<"messages">;
+};
 
 type CreateRequest = {
   body: string,
@@ -10,23 +18,36 @@ type CreateRequest = {
   image?: Id<"_storage">,
   channelId?: Id<"channels">,
   parentMessageId?: Id<"messages">,
+  conversationId?: Id<"conversations">,
 };
-type UpdateRequest = { id: Id<"workspaces">, name: string };
-type RemoveRequest = { id: Id<"workspaces"> };
-type UpdateJoinCodeRequest = { id: Id<"workspaces"> };
-type JoinWorkspaceRequest = { id: Id<"workspaces">, joinCode: string };
 
+
+export type GetMessageResponse = typeof api.messages.get._returnType["page"];
 type CreateResponse = Id<"messages"> | null;
-type UpdateResponse = Id<"workspaces"> | null;
-type RemoveResponse = Id<"workspaces"> | null;
-type UpdateJoinCodeResponse = Id<"workspaces"> | null;
-type JoinWorkspaceResponse = Id<"workspaces"> | null;
 
 type Options = {
   onSuccess?: (data: CreateResponse) => void;
   onError?: (e: Error) => void;
   onSettled?: () => void;
   throwError?: boolean;
+};
+
+export const useGetMessages = ({
+  channelId, parentMessageId, conversationId,
+}: GetMessageRequest) => {
+  const { results, status, loadMore } = usePaginatedQuery(api.messages.get, {
+    channelId,
+    conversationId,
+    parentMessageId
+  }, {
+    initialNumItems: BATCH_SIZE,
+  });
+
+  return {
+    results,
+    status,
+    loadMore: () => loadMore(BATCH_SIZE),
+  }
 };
 
 export const useCreateMessage = () => {

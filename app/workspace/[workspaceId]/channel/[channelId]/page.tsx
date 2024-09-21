@@ -4,14 +4,19 @@ import { Loader, TriangleAlert } from "lucide-react";
 
 import {
   useChannelId,
-  useGetChannel
+  useGetChannel,
+  useGetMessages
 } from "@/hooks";
 import { ChannelHeader } from "./channel-header";
 import { ChatInput } from "./chat-input";
 
 const Channel = () => {
   const channelId = useChannelId();
+  const { results } = useGetMessages({ channelId });
   const { data: channel, isLoading: channelLoading } = useGetChannel({ id: channelId });
+
+
+  console.log(results);
 
   if (channelLoading) {
     return (

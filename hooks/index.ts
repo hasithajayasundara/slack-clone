@@ -25,5 +25,6 @@ export {
 } from './use-channels';
 export {
   useCreateMessage,
+  useGetMessages,
 } from './use-messages';
 export { useGenerateUploadUrl } from './use-upload';
