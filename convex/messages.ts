@@ -153,7 +153,7 @@ export const get = query({
             };
           }),
         )
-      )
+      ).filter((message) => message !== null)
     };
   }
 })
