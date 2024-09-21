@@ -2,35 +2,16 @@ import { useCallback, useMemo, useState } from "react";
 import { useMutation } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-
-type CreateRequest = {
-  body: string,
-  workspaceId: Id<"workspaces">,
-  image?: Id<"_storage">,
-  channelId?: Id<"channels">,
-  parentMessageId?: Id<"messages">,
-};
-type UpdateRequest = { id: Id<"workspaces">, name: string };
-type RemoveRequest = { id: Id<"workspaces"> };
-type UpdateJoinCodeRequest = { id: Id<"workspaces"> };
-type JoinWorkspaceRequest = { id: Id<"workspaces">, joinCode: string };
-
-type CreateResponse = Id<"messages"> | null;
-type UpdateResponse = Id<"workspaces"> | null;
-type RemoveResponse = Id<"workspaces"> | null;
-type UpdateJoinCodeResponse = Id<"workspaces"> | null;
-type JoinWorkspaceResponse = Id<"workspaces"> | null;
 
 type Options = {
-  onSuccess?: (data: CreateResponse) => void;
+  onSuccess?: (data: string | null) => void;
   onError?: (e: Error) => void;
   onSettled?: () => void;
   throwError?: boolean;
 };
 
-export const useCreateMessage = () => {
-  const [data, setData] = useState<CreateResponse>(null);
+export const useGenerateUploadUrl = () => {
+  const [data, setData] = useState<string | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [state, setState] = useState<"success" | "error" | "settled" | "pending" | "idle">("idle");
 
@@ -39,14 +20,14 @@ export const useCreateMessage = () => {
   const isSettled = useMemo(() => state === "settled", [state]);
   const isSuccess = useMemo(() => state === "success", [state]);
 
-  const mutation = useMutation(api.messages.create);
+  const mutation = useMutation(api.upload.generateUploadUrl);
 
-  const mutate = useCallback(async (values: CreateRequest, options?: Options) => {
+  const mutate = useCallback(async (_values: {}, options?: Options) => {
     try {
       setData(null);
       setError(null);
       setState("pending");
-      const response = await mutation(values);
+      const response = await mutation();
       options?.onSuccess?.(response);
       setData(response);
       setState("success");

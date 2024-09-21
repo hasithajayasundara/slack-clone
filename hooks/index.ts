@@ -26,3 +26,4 @@ export {
 export {
   useCreateMessage,
 } from './use-messages';
+export { useGenerateUploadUrl } from './use-upload';

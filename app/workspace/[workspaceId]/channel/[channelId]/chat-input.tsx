@@ -6,14 +6,23 @@ import { toast } from "sonner";
 import {
   useChannelId,
   useCreateMessage,
+  useGenerateUploadUrl,
   useWorkspaceId
 } from "@/hooks";
+import { Id } from "@/convex/_generated/dataModel";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 
 type Props = {
   placeholder: string;
 }
+
+type CreateMessageValues = {
+  channelId: Id<"channels">;
+  workspaceId: Id<"workspaces">;
+  body: string;
+  image: Id<"_storage"> | undefined;
+};
 
 export const ChatInput = ({ placeholder }: Props) => {
   const [editorKey, setEditorKey] = useState(0);
@@ -23,20 +32,48 @@ export const ChatInput = ({ placeholder }: Props) => {
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
   const { mutate: createMessage } = useCreateMessage();
+  const { mutate: generateUrl } = useGenerateUploadUrl();
 
   const handleSubmit = async ({ body, image }: { body: string, image: File | null }) => {
     try {
       setIsPending(true);
-      await createMessage({
-        workspaceId,
+      editorRef.current?.enable(false);
+
+      const values: CreateMessageValues = {
         channelId,
+        workspaceId,
         body,
-      }, { throwError: true });
+        image: undefined,
+      };
+
+      if (image) {
+        const url = await generateUrl({}, { throwError: true });
+        if (!url) {
+          throw new Error('url no found');
+        }
+
+        const result = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": image.type },
+          body: image,
+
+        });
+
+        if (!result.ok) {
+          throw new Error('Failed to upload image');
+        }
+
+        const { storageId } = await result.json();
+        values.image = storageId;
+      }
+
+      await createMessage(values, { throwError: true });
       setEditorKey((prev) => prev + 1);
     } catch (err) {
       toast.error('Failed to send message');
     } finally {
       setIsPending(false);
+      editorRef.current?.enable(true);
     }
   };
 
