@@ -5,6 +5,7 @@ import { Doc, Id } from "@/convex/_generated/dataModel";
 import { Hint } from './hint';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Thumbnail } from './thumbnail';
+import { Toolbar } from './toolbar';
 
 const Renderer = dynamic(() => import("./renderer"), { ssr: false });
 
@@ -42,12 +43,15 @@ export const Message = ({
   memberId,
   isAuthor,
   image,
+  isEditing,
   authorImage,
   authorName = "Member",
   isCompact,
   createdAt,
   updatedAt,
   body,
+  hideThreadButton,
+  setEditingId,
 }: Props) => {
   if (isCompact) {
     return (
@@ -109,6 +113,17 @@ export const Message = ({
           ) : null}
         </div>
       </div>
+      {!isEditing && (
+        <Toolbar
+          isAuthor={isAuthor}
+          isPending={false}
+          handleEdit={() => setEditingId(id)}
+          hideThreadButton={hideThreadButton}
+          handleThread={() => {}}
+          handleDelete={() => {}}
+          handleReaction={() => {}}
+        />
+      )}
     </div>
   );
 }
