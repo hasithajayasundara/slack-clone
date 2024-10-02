@@ -1,7 +1,9 @@
-import { format, isToday, isYesterday } from 'date-fns';
+import { differenceInMinutes, format, isToday, isYesterday } from 'date-fns';
 
 import { GetMessageResponse } from "@/hooks/use-messages";
 import { Message } from './message';
+
+const TIME_THRESHOLD = 5;
 
 type Props = {
   memberName?: string;
@@ -61,6 +63,13 @@ export const MessageList = ({
           </div>
           {
             messages.map((message, idx) => {
+              const prevMessage = messages[idx - 1];
+              const isCompact = prevMessage
+                && prevMessage.user._id === message.user._id
+                && differenceInMinutes(
+                  new Date(message._creationTime),
+                  new Date(prevMessage._creationTime),
+                ) < TIME_THRESHOLD;
               return (
                 <Message
                   key={message._id}
@@ -76,7 +85,7 @@ export const MessageList = ({
                   createdAt={message._creationTime}
                   isEditing={false}
                   setEditingId={() => {}}
-                  isCompact={false}
+                  isCompact={isCompact}
                   hideThreadButton={false}
                   threadCount={message.threadCount}
                   threadImage={message.threadImage}

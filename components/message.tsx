@@ -4,6 +4,7 @@ import { format, isToday, isYesterday } from 'date-fns';
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import { Hint } from './hint';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Thumbnail } from './thumbnail';
 
 const Renderer = dynamic(() => import("./renderer"), { ssr: false });
 
@@ -40,6 +41,7 @@ export const Message = ({
   id,
   memberId,
   isAuthor,
+  image,
   authorImage,
   authorName = "Member",
   isCompact,
@@ -56,8 +58,16 @@ export const Message = ({
               {format(new Date(createdAt), "hh:mm")}
             </button>
           </Hint>
+          <div className="flex flex-col w-full">
+            <Renderer value={body} />
+            <Thumbnail url={image} />
+            {updatedAt ? (
+              <span className="text-sm text-muted-foreground">
+                (edited)
+              </span>
+            ) : null}
+          </div>
         </div>
-        <Renderer value={body} />
       </div>
     );
   }
@@ -69,10 +79,8 @@ export const Message = ({
       <div className="flex items-start gap-2">
         <button>
           <Avatar>
-            <AvatarImage className="rounded-md" src={authorImage} />
-            <AvatarFallback
-              className="rounded-md text-white bg-sky-500 text-xs"
-            >
+            <AvatarImage src={authorImage} />
+            <AvatarFallback>
               {avatarFallback}
             </AvatarFallback>
           </Avatar>
@@ -93,6 +101,7 @@ export const Message = ({
             </Hint>
           </div>
           <Renderer value={body} />
+          <Thumbnail url={image} />
           {updatedAt ? (
             <span className="text-xs text-muted-foreground">
               (edited)
