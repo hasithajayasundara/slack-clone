@@ -43,6 +43,7 @@ export const Toolbar = ({
               variant="ghost"
               size="iconSm"
               disabled={isPending}
+              onClick={handleThread}
             >
               <MessageSquareTextIcon className="size-4" />
             </Button>
@@ -55,6 +56,7 @@ export const Toolbar = ({
                 variant="ghost"
                 size="iconSm"
                 disabled={isPending}
+                onClick={handleEdit}
               >
                 <Pencil className="size-4" />
               </Button>
@@ -64,6 +66,7 @@ export const Toolbar = ({
                 variant="ghost"
                 size="iconSm"
                 disabled={isPending}
+                onClick={handleDelete}
               >
                 <Trash className="size-4" />
               </Button>
