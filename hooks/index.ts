@@ -27,5 +27,6 @@ export {
   useCreateMessage,
   useGetMessages,
   useUpdateMessage,
+  useRemoveMessage,
 } from './use-messages';
 export { useGenerateUploadUrl } from './use-upload';

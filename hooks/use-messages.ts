@@ -20,14 +20,15 @@ type CreateRequest = {
   parentMessageId?: Id<"messages">,
   conversationId?: Id<"conversations">,
 };
-
 type UpdateRequest = {
   id: Id<"messages">,
   body: string,
 };
+type RemoveRequest = { id: Id<"messages"> };
 
 type CreateResponse = Id<"messages"> | null;
 type UpdateResponse = Id<"messages"> | null;
+type RemoveResponse = Id<"messages"> | null;
 
 export type GetMessageResponse = typeof api.messages.get._returnType["page"];
 
@@ -115,6 +116,51 @@ export const useUpdateMessage = () => {
   const mutation = useMutation(api.messages.update);
 
   const mutate = useCallback(async (values: UpdateRequest, options?: Options) => {
+    try {
+      setData(null);
+      setError(null);
+      setState("pending");
+      const response = await mutation(values);
+      options?.onSuccess?.(response);
+      setData(response);
+      setState("success");
+      return response;
+    } catch (err) {
+      options?.onError?.(err as Error);
+      if (options?.throwError) {
+        throw err;
+      }
+      setError(err as Error);
+      setState("error");
+    } finally {
+      options?.onSettled?.();
+    }
+  }, [mutation]);
+
+  return {
+    mutate,
+    data,
+    error,
+    isError,
+    isSettled,
+    isSuccess,
+    isPending,
+  };
+};
+
+export const useRemoveMessage = () => {
+  const [data, setData] = useState<RemoveResponse>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [state, setState] = useState<"success" | "error" | "settled" | "pending" | "idle">("idle");
+
+  const isPending = useMemo(() => state === "pending", [state]);
+  const isError = useMemo(() => state === "error", [state]);
+  const isSettled = useMemo(() => state === "settled", [state]);
+  const isSuccess = useMemo(() => state === "success", [state]);
+
+  const mutation = useMutation(api.messages.remove);
+
+  const mutate = useCallback(async (values: RemoveRequest, options?: Options) => {
     try {
       setData(null);
       setError(null);
