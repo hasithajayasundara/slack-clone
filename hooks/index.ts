@@ -30,3 +30,4 @@ export {
   useRemoveMessage,
 } from './use-messages';
 export { useGenerateUploadUrl } from './use-upload';
+export { useToggleReactions } from './use-reactions';

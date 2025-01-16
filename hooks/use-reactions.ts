@@ -18,7 +18,7 @@ type Options = {
   throwError?: boolean;
 };
 
-export const useCreateReaction = () => {
+export const useToggleReactions = () => {
   const [data, setData] = useState<CreateResponse>(null);
   const [error, setError] = useState<Error | null>(null);
   const [state, setState] = useState<"success" | "error" | "settled" | "pending" | "idle">("idle");
