@@ -46,7 +46,8 @@ export const Toolbar = () => {
             <CommandGroup heading="Channels">
               {channels?.map((channel) => (
                 <CommandItem
-                onSelect={() => onSelect(`/workspace/${workspaceId}/channel/${channel._id}`)}
+                  key={channel._id}
+                  onSelect={() => onSelect(`/workspace/${workspaceId}/channel/${channel._id}`)}
                 >
                   {channel.name}
                 </CommandItem>
@@ -56,6 +57,7 @@ export const Toolbar = () => {
             <CommandGroup heading="Members">
               {members?.map((member) => (
                 <CommandItem
+                  key={member._id}
                   onSelect={() => onSelect(`/workspace/${workspaceId}/member/${member._id}`)}                >
                   {member.user.name ?? ''}
                 </CommandItem>
