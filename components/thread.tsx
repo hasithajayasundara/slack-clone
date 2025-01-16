@@ -204,6 +204,7 @@ export const Thread = ({ messageId, onClose }: Props) => {
                     threadCount={message.threadCount}
                     threadImage={message.threadImage}
                     threadTimestamp={message.threadTimestamp}
+                    threadName={message.threadName}
                   />
                 )
               })

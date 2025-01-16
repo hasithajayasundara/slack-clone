@@ -13,6 +13,7 @@ import {
 import { cn } from '@/lib/utils';
 import { Hint } from './hint';
 import { Reactions } from './reactions';
+import { ThreadBar } from './thread-bar';
 import { Thumbnail } from './thumbnail';
 import { Toolbar } from './toolbar';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -41,6 +42,7 @@ type Props = {
   threadCount?: number;
   threadImage?: string;
   threadTimestamp?: number;
+  threadName?: string;
 };
 
 const formatFullTime = (date: Date) => {
@@ -63,6 +65,10 @@ export const Message = ({
   body,
   hideThreadButton,
   reactions,
+  threadCount,
+  threadImage,
+  threadTimestamp,
+  threadName,
   setEditingId,
 }: Props) => {
   const { onOpenMessage, onClose, parentMessageId } = usePanel();
@@ -151,6 +157,13 @@ export const Message = ({
                   </span>
                 ) : null}
                 <Reactions data={reactions} onChange={handleReaction} />
+                <ThreadBar
+                  count={threadCount}
+                  image={threadImage}
+                  timestamp={threadTimestamp}
+                  name={threadName}
+                  onClick={() => onOpenMessage(id)}
+                />
               </div>
             )}
           </div>
@@ -224,6 +237,13 @@ export const Message = ({
                 </span>
               ) : null}
               <Reactions data={reactions} onChange={handleReaction} />
+              <ThreadBar
+                count={threadCount}
+                image={threadImage}
+                timestamp={threadTimestamp}
+                name={threadName}
+                onClick={() => onOpenMessage(id)}
+              />
             </div>
           )}
         </div>
