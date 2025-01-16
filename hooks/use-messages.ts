@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { useMutation, usePaginatedQuery } from "convex/react";
+import { useMutation, usePaginatedQuery, useQuery } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -10,6 +10,10 @@ type GetMessageRequest = {
   channelId?: Id<"channels">
   conversationId?: Id<"conversations">;
   parentMessageId?: Id<"messages">;
+};
+
+type GetMessageByIdRequest = {
+  messageId: Id<"messages">;
 };
 
 type CreateRequest = {
@@ -55,6 +59,12 @@ export const useGetMessages = ({
     status,
     loadMore: () => loadMore(BATCH_SIZE),
   }
+};
+
+export const useGetMessageById = ({ messageId }: GetMessageByIdRequest) => {
+  const data = useQuery(api.messages.getById, { id: messageId });
+  const isLoading = data === undefined;
+  return { data, isLoading };
 };
 
 export const useCreateMessage = () => {

@@ -3,7 +3,13 @@ import { format, isToday, isYesterday } from 'date-fns';
 import { toast } from 'sonner';
 
 import { Doc, Id } from "@/convex/_generated/dataModel";
-import { useConfirm, useRemoveMessage, useUpdateMessage, useToggleReactions } from '@/hooks';
+import {
+  useConfirm,
+  useRemoveMessage,
+  useUpdateMessage,
+  useToggleReactions,
+  usePanel
+} from '@/hooks';
 import { cn } from '@/lib/utils';
 import { Hint } from './hint';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -59,6 +65,7 @@ export const Message = ({
   reactions,
   setEditingId,
 }: Props) => {
+  const { onOpenMessage, onClose, parentMessageId } = usePanel();
   const [ConfirmDialog, confirm] = useConfirm({
     title: 'Delete message?',
     message: 'Are you sure you want to delete this message?'
@@ -90,7 +97,9 @@ export const Message = ({
     removeMessage({ id }, {
       onSuccess: () => {
         toast.success('Message removed');
-        // TODO: Close thread if opened
+        if (parentMessageId === id) {
+          onClose();
+        }
       },
       onError: () => {
         toast.error('Failed to remove message');
@@ -151,7 +160,7 @@ export const Message = ({
               isPending={false}
               handleEdit={() => setEditingId(id)}
               hideThreadButton={hideThreadButton}
-              handleThread={() => {}}
+              handleThread={() => onOpenMessage(id)}
               handleDelete={handleDelete}
               handleReaction={handleReaction}
             />
@@ -224,7 +233,7 @@ export const Message = ({
             isPending={isPending}
             handleEdit={() => setEditingId(id)}
             hideThreadButton={hideThreadButton}
-            handleThread={() => {}}
+            handleThread={() => onOpenMessage(id)}
             handleDelete={handleDelete}
             handleReaction={handleReaction}
           />
