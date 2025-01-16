@@ -81,11 +81,11 @@ export const Thread = ({ messageId, onClose }: Props) => {
       editorRef.current?.enable(false);
 
       const values: CreateMessageValues = {
-        channelId,
-        parentMessageId: messageId,
-        workspaceId,
         body,
+        channelId,
+        workspaceId,
         image: undefined,
+        parentMessageId: messageId,
       };
 
       if (image) {

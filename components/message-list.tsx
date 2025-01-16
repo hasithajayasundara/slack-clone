@@ -11,6 +11,7 @@ import { Id } from '@/convex/_generated/dataModel';
 import { useCurrentMember, useWorkspaceId } from '@/hooks';
 import { GetMessageResponse } from "@/hooks/use-messages";
 import { ChannelHero } from './channel-hero';
+import { ConversationHero } from './conversation-hero';
 import { Message } from './message';
 
 const TIME_THRESHOLD = 5;
@@ -136,6 +137,12 @@ export const MessageList = ({
         <ChannelHero
           name={channelName}
           creationTime={channelCreationTime}
+        />
+      )}
+      {variant === 'conversation' && (
+        <ConversationHero
+          name={memberName}
+          image={memberImage}
         />
       )}
     </div>

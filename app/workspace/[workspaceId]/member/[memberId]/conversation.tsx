@@ -1,6 +1,9 @@
 import { Loader } from "lucide-react";
+
+import { MessageList } from "@/components/message-list";
 import { Id } from "@/convex/_generated/dataModel"
 import { useGetMemberById, useGetMessages, useMemberId } from "@/hooks";
+import { ChatInput } from "./chat-input";
 import { ConversationHeader } from "./conversation-header";
 
 type Props = {
@@ -31,6 +34,19 @@ export const Conversation = ({ id }: Props) => {
         memberName={member?.user.name}
         memberImage={member?.user.image}
         onClick={() => {}}
+      />
+      <MessageList
+        data={results}
+        variant="conversation"
+        loadMore={loadMore}
+        memberImage={member?.user.image}
+        memberName={member?.user.name}
+        canLoadMore={status === 'CanLoadMore'}
+        isLoadingMore={status === 'LoadingMore'}
+      />
+      <ChatInput
+        conversationId={id}
+        placeholder={`Message ${member?.user.name}`}
       />
     </div>
   )

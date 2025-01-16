@@ -12,6 +12,7 @@ import {
   useGetChannels,
   useGetMembers,
   useGetWorkspace,
+  useMemberId,
   useWorkspaceId,
 } from "@/hooks";
 import { useChannelStore } from "@/store";
@@ -21,6 +22,7 @@ import { WorkspaceHeader } from "./workspace-header";
 import { WorkspaceSection } from "./workspace-section";
 
 export const WorkspaceSidebar = () => {
+  const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
 
@@ -97,6 +99,7 @@ export const WorkspaceSidebar = () => {
             id={item._id}
             label={item.user.name}
             image={item.user.image}
+            variant={memberId === item._id ? 'active' : 'default'}
           />
         ))}
       </WorkspaceSection>
