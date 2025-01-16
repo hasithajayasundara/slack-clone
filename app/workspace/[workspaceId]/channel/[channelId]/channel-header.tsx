@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
-import { FaChevronDown } from "react-icons/fa";
 import { TrashIcon } from "lucide-react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { FaChevronDown } from "react-icons/fa";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +15,6 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { FieldValues, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import {
   useChannelId,

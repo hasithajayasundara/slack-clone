@@ -14,11 +14,11 @@ import {
   useGetWorkspace,
   useWorkspaceId,
 } from "@/hooks";
-import { WorkspaceHeader } from "./workspace-header";
-import { SidebarItem } from "./sidebar-item";
-import { WorkspaceSection } from "./workspace-section";
-import { UserItem } from "./user-item";
 import { useChannelStore } from "@/store";
+import { SidebarItem } from "./sidebar-item";
+import { UserItem } from "./user-item";
+import { WorkspaceHeader } from "./workspace-header";
+import { WorkspaceSection } from "./workspace-section";
 
 export const WorkspaceSidebar = () => {
   const workspaceId = useWorkspaceId();

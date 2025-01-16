@@ -2,6 +2,7 @@
 
 import { Loader, TriangleAlert } from "lucide-react";
 
+import { MessageList } from "@/components/message-list";
 import {
   useChannelId,
   useGetChannel,
@@ -9,7 +10,6 @@ import {
 } from "@/hooks";
 import { ChannelHeader } from "./channel-header";
 import { ChatInput } from "./chat-input";
-import { MessageList } from "@/components/message-list";
 
 const Channel = () => {
   const channelId = useChannelId();

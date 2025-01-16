@@ -1,9 +1,9 @@
-import { ReactNode, useState } from "react";
-import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { ReactNode, useState } from "react";
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 
 type Props = {
   children: ReactNode;

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useMemo } from "react";
 
 import { UserButton } from "@/features/auth/components/user-button";
 import { useGetWorkspaces } from "@/hooks";

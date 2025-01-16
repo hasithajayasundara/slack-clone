@@ -1,3 +1,7 @@
+import { ImageIcon, Smile, XIcon } from 'lucide-react';
+import Image from 'next/image';
+import Quill, { type QuillOptions } from 'quill';
+import { Delta, Op } from 'quill/core';
 import {
   MutableRefObject,
   useEffect,
@@ -5,18 +9,14 @@ import {
   useRef,
   useState,
 } from 'react';
-import Quill, { type QuillOptions } from 'quill';
-import { Delta, Op } from 'quill/core';
-import { ImageIcon, Smile, XIcon } from 'lucide-react';
-import { PiTextAa } from 'react-icons/pi';
 import { MdSend } from 'react-icons/md';
-import Image from 'next/image';
+import { PiTextAa } from 'react-icons/pi';
 import "quill/dist/quill.snow.css";
 
-import { Button } from './ui/button';
-import { Hint } from './hint';
 import { cn } from '@/lib/utils';
 import { EmojiPopover } from './emoji-popover';
+import { Hint } from './hint';
+import { Button } from './ui/button';
 
 type EditorValue = {
   image: File | null;

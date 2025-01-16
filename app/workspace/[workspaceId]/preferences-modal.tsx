@@ -1,9 +1,11 @@
 
-import { useState } from "react";
 import { TrashIcon } from "lucide-react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -13,15 +15,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
   useConfirm,
   useRemoveWorkspace,
   useUpdateWorkspace,
   useWorkspaceId
 } from "@/hooks";
-import { Input } from "@/components/ui/input";
-import { FieldValues, useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 
 type Props = {
   open: boolean;

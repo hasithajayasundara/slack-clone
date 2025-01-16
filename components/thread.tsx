@@ -1,13 +1,11 @@
-import { useRef, useState } from "react";
-import Quill from "quill";
-import { toast } from "sonner";
-import dynamic from "next/dynamic";
-import { AlertTriangle, Loader, XIcon } from "lucide-react";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
+import { AlertTriangle, Loader, XIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+import Quill from "quill";
+import { useRef, useState } from "react";
+import { toast } from "sonner";
 
 import { Id } from "@/convex/_generated/dataModel";
-import { Button } from "./ui/button";
-import { Message } from "./message";
 import {
   useChannelId,
   useCreateMessage,
@@ -17,6 +15,8 @@ import {
   useGetMessages,
   useWorkspaceId,
 } from "@/hooks";
+import { Message } from "./message";
+import { Button } from "./ui/button";
 
 type Props = {
   messageId: Id<"messages">;

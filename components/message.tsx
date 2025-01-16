@@ -1,5 +1,5 @@
-import dynamic from 'next/dynamic';
 import { format, isToday, isYesterday } from 'date-fns';
+import dynamic from 'next/dynamic';
 import { toast } from 'sonner';
 
 import { Doc, Id } from "@/convex/_generated/dataModel";
@@ -12,10 +12,10 @@ import {
 } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { Hint } from './hint';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Reactions } from './reactions';
 import { Thumbnail } from './thumbnail';
 import { Toolbar } from './toolbar';
-import { Reactions } from './reactions';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const Renderer = dynamic(() => import("./renderer"), { ssr: false });
 const Editor = dynamic(() => import("./editor"), { ssr: false });

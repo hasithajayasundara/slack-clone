@@ -1,10 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   CreateChannelModal,
   CreateWorkspaceModal,
 } from "@/features";
-import { useEffect, useState } from "react";
 
 export const Modals = () => {
   const [isMounted, setIsMounted] = useState(false);

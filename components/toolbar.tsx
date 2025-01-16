@@ -1,7 +1,7 @@
 import { MessageSquareTextIcon, Pencil, Smile, Trash } from "lucide-react";
-import { Button } from "./ui/button";
-import { Hint } from "./hint";
 import { EmojiPopover } from "./emoji-popover";
+import { Hint } from "./hint";
+import { Button } from "./ui/button";
 
 type Props = {
   isAuthor: boolean;

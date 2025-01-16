@@ -1,19 +1,19 @@
 'use client';
 
-import { ReactNode } from "react";
 import { Loader } from "lucide-react";
+import { ReactNode } from "react";
 
-import { usePanel } from "@/hooks";
-import { Toolbar } from "./toolbar";
-import { Sidebar } from "./sidebar";
+import { Thread } from "@/components/thread";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup
 } from "@/components/ui/resizable";
-import { WorkspaceSidebar } from "./workspace-sidebar";
 import { Id } from "@/convex/_generated/dataModel";
-import { Thread } from "@/components/thread";
+import { usePanel } from "@/hooks";
+import { Sidebar } from "./sidebar";
+import { Toolbar } from "./toolbar";
+import { WorkspaceSidebar } from "./workspace-sidebar";
 
 type Props = {
   children: ReactNode;

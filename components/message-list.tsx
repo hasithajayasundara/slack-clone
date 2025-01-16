@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   differenceInMinutes,
   format,
@@ -6,12 +5,13 @@ import {
   isYesterday
 } from 'date-fns';
 import { Loader } from 'lucide-react';
+import { useState } from 'react';
 
-import { GetMessageResponse } from "@/hooks/use-messages";
-import { Message } from './message';
-import { ChannelHero } from './channel-hero';
 import { Id } from '@/convex/_generated/dataModel';
 import { useCurrentMember, useWorkspaceId } from '@/hooks';
+import { GetMessageResponse } from "@/hooks/use-messages";
+import { ChannelHero } from './channel-hero';
+import { Message } from './message';
 
 const TIME_THRESHOLD = 5;
 

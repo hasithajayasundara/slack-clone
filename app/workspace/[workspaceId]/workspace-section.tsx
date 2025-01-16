@@ -1,10 +1,10 @@
+import { PlusIcon } from "lucide-react";
 import { ReactNode } from "react";
 import { FaCaretDown } from "react-icons/fa";
-import { PlusIcon } from "lucide-react";
 import { useToggle } from 'react-use';
 
-import { Button } from "@/components/ui/button";
 import { Hint } from "@/components/hint";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Props = {
