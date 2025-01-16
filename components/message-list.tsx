@@ -5,13 +5,13 @@ import {
   isToday,
   isYesterday
 } from 'date-fns';
+import { Loader } from 'lucide-react';
 
 import { GetMessageResponse } from "@/hooks/use-messages";
 import { Message } from './message';
 import { ChannelHero } from './channel-hero';
 import { Id } from '@/convex/_generated/dataModel';
 import { useCurrentMember, useWorkspaceId } from '@/hooks';
-import { Loader } from 'lucide-react';
 
 const TIME_THRESHOLD = 5;
 
