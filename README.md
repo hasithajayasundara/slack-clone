@@ -16,6 +16,7 @@ A simplified clone of Slack, developed using modern web technologies.
 Follow these steps to set up and run the Slack Clone locally on your machine:
 
 ### Clone the Repository
+
 ```bash
 git clone https://github.com/hasithajayasundara/slack-clone.git
 cd slack-clone
@@ -24,3 +25,7 @@ npm install
 npx convex dev
 npm run dev
 ```
+
+### OAuth providers
+
+At the moment application supports SSO using Google or Github. To setup these OAuth providers check convex documentation [here](https://labs.convex.dev/auth/config/oauth).
