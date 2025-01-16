@@ -32,7 +32,6 @@ type RemoveResponse = Id<"messages"> | null;
 
 export type GetMessageResponse = typeof api.messages.get._returnType["page"];
 
-
 type Options = {
   onSuccess?: (data: CreateResponse) => void;
   onError?: (e: Error) => void;
